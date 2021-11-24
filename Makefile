@@ -1,5 +1,5 @@
 API_GEN_VERSION := v2.3.1
-FIRESTORE_REPO_VERSION := v1.10.0
+FIRESTORE_REPO_VERSION := v1.12.3
 
 OS_NAME := `echo $(shell uname -s) | tr A-Z a-z`
 MACHINE_TYPE := $(shell uname -m)
