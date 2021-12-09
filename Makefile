@@ -1,5 +1,6 @@
 API_GEN_VERSION := v2.3.3
 VOLCAGO_VERSION := v1.0.0
+SWAG_VERSION := 1.7.6
 
 OS_NAME := `echo $(shell uname -s) | tr A-Z a-z`
 MACHINE_TYPE := $(shell uname -m)
@@ -31,6 +32,17 @@ bootstrap_volcago_with_curl:
 	mkdir -p bin
 	curl -s -L -o ./bin/volcago.tar.gz https://github.com/go-generalize/volcago/releases/download/$(VOLCAGO_VERSION)/volcago_$(OS_NAME)_$(MACHINE_TYPE).tar.gz
 	cd ./bin && tar xzf volcago.tar.gz && rm *.tar.gz
+
+.PHONY: bootstrap_swag
+bootstrap_swag:
+	mkdir -p ./bin
+	GOBIN=${PWD}/bin go install github.com/swaggo/swag/cmd/swag@v$(SWAG_VERSION)
+
+.PHONY: bootstrap_swag_with_curl
+bootstrap_swag_with_curl:
+	mkdir -p ./bin
+	curl -s -L -o ./bin/swag.tar.gz https://github.com/swaggo/swag/releases/download/v$(SWAG_VERSION)/swag_$(SWAG_VERSION)_$(OS_NAME)_$(MACHINE_TYPE).tar.gz
+	cd ./bin && tar xzf swag.tar.gz && rm *.tar.gz
 
 .PHONY: server_generate
 server_generate:
