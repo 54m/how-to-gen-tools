@@ -7,14 +7,27 @@ MACHINE_TYPE := $(shell uname -m)
 .PHONY: bootstrap
 bootstrap: bootstrap_api_gen bootstrap_volcago
 
+.PHONY: bootstrap_with_curl
+bootstrap_with_curl: bootstrap_api_gen_with_curl bootstrap_volcago_with_curl
+
 .PHONY: bootstrap_api_gen
 bootstrap_api_gen:
+	mkdir -p ./bin
+	GOBIN=${PWD}/bin go install github.com/go-generalize/api_gen/v2/cmd/api_gen@$(API_GEN_VERSION)
+
+.PHONY: bootstrap_api_gen_with_curl
+bootstrap_api_gen_with_curl:
 	mkdir -p ./bin
 	curl -s -L -o ./bin/api_gen.tar.gz https://github.com/go-generalize/api_gen/releases/download/$(API_GEN_VERSION)/api_gen_$(OS_NAME)_$(MACHINE_TYPE).tar.gz
 	cd ./bin && tar xzf api_gen.tar.gz && rm *.tar.gz
 
 .PHONY: bootstrap_volcago
 bootstrap_volcago:
+	mkdir -p bin
+	GOBIN=${PWD}/bin go install github.com/go-generalize/volcago/cmd/volcago@$(VOLCAGO_VERSION)
+
+.PHONY: bootstrap_volcago_with_curl
+bootstrap_volcago_with_curl:
 	mkdir -p bin
 	curl -s -L -o ./bin/volcago.tar.gz https://github.com/go-generalize/volcago/releases/download/$(VOLCAGO_VERSION)/volcago_$(OS_NAME)_$(MACHINE_TYPE).tar.gz
 	cd ./bin && tar xzf volcago.tar.gz && rm *.tar.gz
