@@ -1,5 +1,5 @@
 # how-to-gen-tools
-パートナー向け内製ツールの説明会(api_gen, firestore-repo)アジェンダ
+パートナー向け内製ツールの説明会(api_gen, volcago)アジェンダ
 
 # api_genって何
 - server generator
@@ -12,7 +12,7 @@
   - ライブラリは今いるディレクトリに対して生成される。
   - TypeScript+fetchを利用したライブラリが生成される。
 
-# firestore-repoって何
+# volcagoって何
 Cloud Firestoreで利用されるコード(CRUD & Search)を自動生成する。
 
 # デモ
@@ -26,10 +26,10 @@ Cloud Firestoreで利用されるコード(CRUD & Search)を自動生成する�
   - api_gen生成前
 - api_gen-generated
   - api_gen生成後
-- firestore-repo
-  - firestore-repo生成前
-- firestore-repo-generated
-  - firestore-repo生成後
+- volcago
+  - volcago生成前
+- volcago-generated
+  - volcago生成後
 - completed
   - 完成系
 
