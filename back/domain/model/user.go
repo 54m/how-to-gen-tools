@@ -7,6 +7,8 @@ import (
 	"golang.org/x/xerrors"
 )
 
+//go:generate ../../../bin/volcago -p repository -o ../../repository -mockgen ../../bin/mockgen -mock-output mock/mock_$GOFILE User
+
 // User - ユーザー
 type User struct {
 	ID   string `json:"id"   firestore:"-" firestore_key:"auto"` // ID
