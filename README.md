@@ -26,8 +26,6 @@ Cloud Firestoreで利用されるコード(CRUD & Search)を自動生成する�
   - api_gen生成前
 - api_gen-generated
   - api_gen生成後
-- volcago
-  - volcago生成前
 - volcago-generated
   - volcago生成後
 - completed
