@@ -20,7 +20,7 @@ Cloud Firestoreで利用されるコード(CRUD & Search)を自動生成する�
 ---
 
 # ブランチの説明
-- main
+- develop
   - ディレクトリ構成の説明
 - api_gen
   - api_gen生成前
@@ -28,7 +28,7 @@ Cloud Firestoreで利用されるコード(CRUD & Search)を自動生成する�
   - api_gen生成後
 - volcago-generated
   - volcago生成後
-- completed
+- main
   - 完成系
 
 # 質疑応答
