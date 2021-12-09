@@ -9,9 +9,9 @@ import (
 
 // User - ユーザー
 type User struct {
-	ID   string `json:"id"   firestore:"-" firestore_key:"auto"` // ID
-	Name string `json:"name"`                                    // ニックネーム
-	Age  int    `json:"age"`                                     // 年齢
+	ID   string `json:"id"   firestore:"-"` // ID
+	Name string `json:"name"`               // ニックネーム
+	Age  int    `json:"age"`                // 年齢
 	Meta
 }
 
