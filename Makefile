@@ -83,3 +83,7 @@ go_generate:
 
 .PHONY: generate
 generate: server_generate client_generate go_generate
+
+.PHONY: swag
+swag:
+	cd back && make swag
