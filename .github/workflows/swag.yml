@@ -1,0 +1,85 @@
+name: generator
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - back/**
+
+jobs:
+  createPullRequest:
+    if: ${{ !contains(github.ref, 'refs/heads/automated') }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 0
+
+      - name: Set env
+        run: |
+          just_before=$(git log --merges --oneline | grep 'Merge pull request #' | head -n 1 | awk '{print $5}')
+
+          body=$(cat << EOF
+          Update Swagger Documents
+          - Updated with ${just_before}
+
+          If you do not need it, please close this PR.
+          EOF
+          )
+          echo "PR_BODY<<EOF" >> $GITHUB_ENV
+          echo "$body" >> $GITHUB_ENV
+          echo "EOF" >> $GITHUB_ENV
+
+      - uses: actions/setup-go@v2
+        with:
+          go-version: '^1.16'
+
+      - name: Setup
+        run: |
+          make bootstrap_swag
+          ./bin/swag --version
+          git status
+          exit 0
+
+      - name: Generate
+        run: |
+          actual=`wc -c back/docs/swagger.json | awk '{print $1}'`
+          make swag
+          expect=`wc -c back/docs/swagger.json | awk '{print $1}'`
+          if [ $actual -ne $expect ]; then
+            echo "no diff"
+            exit 0
+          fi
+
+      - name: Create Pull Request
+        id: cpr
+        uses: peter-evans/create-pull-request@v3
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          commit-message: "update: generated swagger code #auto"
+          committer: GitHub <noreply@github.com>
+          author: ${{ github.actor }} <${{ github.actor }}@users.noreply.github.com>
+          signoff: true
+          branch: automated/update-swag
+          delete-branch: true
+          branch-suffix: short-commit-hash
+          title: '[Auto] Update Swagger Documents'
+          body: ${{ env.PR_BODY }}
+          labels: |
+            automated pr
+            backend
+          assignees: ${{ github.actor }}
+          reviewers: ${{ github.actor }}
+          draft: false
+
+      - name: Check outputs
+        run: |
+          clean=$(git status | grep "nothing to commit" || true)
+          if [ -n "$clean" ]; then
+            echo "no diff"
+            exit 0
+          fi
+          echo "Pull Request Number - ${{ steps.cpr.outputs.pull-request-number }}"
+          echo "Pull Request URL - ${{ steps.cpr.outputs.pull-request-url }}"
