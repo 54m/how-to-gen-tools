@@ -1,4 +1,4 @@
-API_GEN_VERSION := v2.3.1
+API_GEN_VERSION := v2.3.3
 VOLCAGO_VERSION := v1.0.0
 
 OS_NAME := `echo $(shell uname -s) | tr A-Z a-z`
